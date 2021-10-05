@@ -22,9 +22,10 @@ module.exports = {
             if (queue.paused) {
                 client.distube.resume(message)
                 message.channel.send(`▶ | **Continue!**`)
+            } else {
+                client.distube.pause(message)
+                message.channel.send("⏸ | **Paused**")
             }
-            client.distube.pause(message)
-            message.channel.send("⏸ | **Paused**")
         } catch (e) {
             console.error(e);
         }
