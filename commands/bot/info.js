@@ -3,9 +3,9 @@ const os = require('os')
 const si = require('systeminformation');
 
 module.exports = {
-    name: "info",
+    name: "bot",
     category: "bot",
-    aliases: ["stats"],
+    aliases: ["bot"],
     run: async(client, message, args) => {
 
         const cpu = await si.cpu();

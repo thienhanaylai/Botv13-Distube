@@ -5,6 +5,7 @@ module.exports.DistubeEvents = (distube) => {
 
     distube
         .on("playSong", (queue, song) => {
+
             let thumbnail;
             let url = song.thumbnail;
             if (url === null) {

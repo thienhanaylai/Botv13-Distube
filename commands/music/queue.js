@@ -16,15 +16,18 @@ module.exports = {
                 }
                 const channel1 = client.channels.cache.find(channel => channel.id === `${channelID}`);
                 if (message.channel.id !== channel1.id) return message.channel.send(`Bạn không thể sử dụng lệnh ở kênh này\nVui lòng chuyển đến kênh #**${channel1.name}**`);
-
-                if (checkroom(message)) return;
-                const queue = client.distube.getQueue(message)
-                if (!queue) return message.channel.send(`Không có bản nhạc nào đang phát !`)
-                const q = queue.songs.map((song, i) => `${i === 0 ? "**Playing**:" : `${i}.`} ${song.name} - \`${song.formattedDuration}\``).slice(0, 10).join("\n")
+                try {
+                    if (checkroom(message)) return;
+                    const queue = client.distube.getQueue(message)
+                    if (!queue) return message.channel.send(`Không có bản nhạc nào đang phát !`)
+                    const q = queue.songs.map((song, i) => `${i === 0 ? "**Playing**:" : `${i}.`} ${song.name} - \`${song.formattedDuration}\``).slice(0, 10).join("\n")
                 const embed = new MessageEmbed()
                 .setColor('AQUA')
                 .setTitle('━━━━━━━━━━━Playlist━━━━━━━━━━━')
                 .setDescription(`${q}`)
         message.channel.send({embeds: [embed]})
+    } catch (e) {
+        console.error(e);
+                }
     }
 }
