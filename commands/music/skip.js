@@ -33,8 +33,17 @@ module.exports = {
                         message.channel.send(`**Skiped !**  `);
                     });
             }
-        } catch (e) {
-            message.channel.send(`Error: \`${e}\``)
+        } catch (error) {
+            channel1 = client.channels.cache.find(channel => channel.id === '895523356986707979')
+            const embed = new MessageEmbed()
+                .setColor('RED')
+                .setTitle('Error!')
+                .addField(`Error:`, `\`\`\`js\n${error}\n\`\`\``)
+            channel1.send({
+                embeds: [embed],
+                allowedMentions: { repliedUser: false }
+            })
+
         }
 
     }

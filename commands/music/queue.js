@@ -20,14 +20,22 @@ module.exports = {
                     if (checkroom(message)) return;
                     const queue = client.distube.getQueue(message)
                     if (!queue) return message.channel.send(`Không có bản nhạc nào đang phát !`)
-                    const q = queue.songs.map((song, i) => `${i === 0 ? "**Playing**:" : `${i}.`} ${song.name} - \`${song.formattedDuration}\``).slice(0, 10).join("\n")
+                    const q = queue.songs.map((song, i) => `${i === 0 ? "**Playing**:" : `${i}.`} ${song.name} - \`${song.formattedDuration}\``).slice(0, 25).join("\n")
                 const embed = new MessageEmbed()
                 .setColor('AQUA')
                 .setTitle('━━━━━━━━━━━Playlist━━━━━━━━━━━')
                 .setDescription(`${q}`)
         message.channel.send({embeds: [embed]})
-    } catch (e) {
-        console.error(e);
-                }
-    }
+    } catch (error) {
+        channel1 = client.channels.cache.find(channel => channel.id === '895523356986707979')
+        const embed = new MessageEmbed()
+            .setColor('RED')
+            .setTitle('Error!')
+            .addField(`Error:`, `\`\`\`js\n${error}\n\`\`\``)
+        channel1.send({
+            embeds: [embed],
+            allowedMentions: { repliedUser: false }
+        })
+
+    }}
 }

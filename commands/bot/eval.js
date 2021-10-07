@@ -40,9 +40,8 @@ module.exports = {
             })
         } catch (error) {
             const embed = new MessageEmbed()
-                .setColor('AQUA')
+                .setColor('RED')
                 .setTitle('Error!')
-                .addField("Code:", `\`\`\`js\n${code}\n\`\`\``)
                 .addField(`Error:`, `\`\`\`js\n${error}\n\`\`\``)
             message.reply({
                 embeds: [embed],

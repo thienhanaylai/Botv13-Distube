@@ -51,6 +51,7 @@ function getCMD(client, message, input) {
         .setTimestamp()
         .setFooter(`Yêu cầu bởi ${message.author.username}`)
     const cmd = client.commands.get(input.toLowerCase()) || client.commands.get(client.aliases.get(input.toLowerCase()));
+
     let info = `Không tìm thấy lệnh **${input.toLowerCase()}**`;
 
     if (!cmd) return message.channel.send(embed.setColor('RED').setDescription(info));

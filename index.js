@@ -43,19 +43,30 @@ const { readdirSync } = require('fs');
 const fs = require('fs');
 
 
+setInterval(() => {
+    client.on("ready", () => {
+        console.log(`${client.user.username} online`);
+        client.user.setPresence({
+            activities: [{
+                name: '| ~play to play music !',
+                type: "LISTENING",
 
-client.on("ready", () => {
-    console.log(`${client.user.username} online`);
-    client.user.setPresence({
-        activities: [{
-            name: '| ~play to play music !',
-            type: "LISTENING",
+            }],
+            status: 'online'
+        });
+        setTimeout(() => {
+            const duration1 = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
+            client.user.setPresence({
+                activities: [{
+                    name: `| UP TIME: ${duration1} `,
+                    type: "LISTENING",
 
-        }],
-        status: 'online'
-    });
-})
-
+                }],
+                status: 'online'
+            });
+        }, 15000)
+    })
+}, 30000)
 
 
 client.config = require('./config.js');
@@ -76,9 +87,11 @@ fs.readdir("./events/", (err, files) => {
 
     if (err) return console.log("Can't find any file!")
     const jsFiles = files.filter(f => f.split(".").pop() === "js")
+
     if (jsFiles.length <= 0) return console.log("Could not find any commands!")
     jsFiles.forEach(file => {
         var fileGet = require(`./events/${file}`)
+
         try {
             client.events.set(fileGet.name, fileGet)
         } catch (e) {
@@ -96,35 +109,47 @@ mongoose.connect('mongodb+srv://thienhanaylai:BAO123az@cluster0.ssew6.mongodb.ne
     .catch(err => console.log(`> Error while connecting to mongoDB : ${err.message}`))
 
 client.on("messageCreate", async(message) => {
+    try {
+        let prefix;
+        let data1 = await SchemaPrefix.findOne({ _id: message.guild.id })
+        if (data1 === null) {
+            prefix = config.prefix;
+        } else {
+            prefix = data1.newPrefix;
+        }
 
-    let prefix;
-    let data1 = await SchemaPrefix.findOne({ _id: message.guild.id })
-    if (data1 === null) {
-        prefix = config.prefix;
-    } else {
-        prefix = data1.newPrefix;
-    }
+        if (message.content === `<@!${client.user.id}>`) {
+            const embed = new MessageEmbed()
+                .setColor('ORANGE')
+                .setTitle(`My prefix is ${prefix}\nUse ${prefix}help to see more!`)
+            message.reply({ embeds: [embed] })
+        };
 
-    if (message.content === `<@!${client.user.id}>`) {
+        if (message.author.dmChannel) return;
+        if (message.author.bot) return;
+        if (!message.content.startsWith(config.prefix)) return;
+        const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+        const cmd = args.shift().toLowerCase();
+        if (cmd.length === 0) return;
+
+
+        let command = client.commands.get(cmd);
+        if (!command) command = client.commands.get(client.aliases.get(cmd));
+        if (!command) return;
+        if (command) {
+            command.run(client, message, args);
+
+        }
+    } catch (error) {
+        channel1 = client.channels.cache.find(channel => channel.id === '895523356986707979')
         const embed = new MessageEmbed()
-            .setColor('ORANGE')
-            .setTitle(`My prefix is ${prefix}\nUse ${prefix}help to see more!`)
-        message.reply({ embeds: [embed] })
-    };
-
-    if (message.author.dmChannel) return;
-    if (message.author.bot) return;
-    if (!message.content.startsWith(config.prefix)) return;
-    const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
-    const cmd = args.shift().toLowerCase();
-    if (cmd.length === 0) return;
-
-
-    let command = client.commands.get(cmd);
-    if (!command) command = client.commands.get(client.aliases.get(cmd));
-    if (!command) return;
-    if (command) {
-        command.run(client, message, args);
+            .setColor('RED')
+            .setTitle('Error!')
+            .addField(`Error:`, `\`\`\`js\n${error}\n\`\`\``)
+        channel1.send({
+            embeds: [embed],
+            allowedMentions: { repliedUser: false }
+        })
 
     }
 })

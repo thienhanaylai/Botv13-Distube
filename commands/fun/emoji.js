@@ -27,7 +27,7 @@ module.exports = {
             if (!parsed[0]) return message.channel.send('khoong co emoji');
             embed.setImage(parsed[0].url);
 
-            essage.channel.send({ embeds: [embed] });
+            message.channel.send({ embeds: [embed] });
         }
     }
 }

@@ -35,6 +35,7 @@ module.exports = {
                     .setDescription(`**Skip** ${args[0]} songs.`)
                     .setFooter(`Request by ${message.author.tag}`, message.author.displayAvatarURL());
                 message.channel.send({ embeds: [thing] });
-            });
+            })
+
     }
 }

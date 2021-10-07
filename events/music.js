@@ -46,6 +46,15 @@ module.exports.DistubeEvents = (distube) => {
             queue.textChannel.send({ embeds: [embed] })
         })
         .on('error', (textChannel, e) => {
+            channel1 = client.channels.cache.find(channel => channel.id === '895523356986707979')
+            const embed = new MessageEmbed()
+                .setColor('RED')
+                .setTitle('Error!')
+                .addField(`Error:`, `\`\`\`js\n${e}\n\`\`\``)
+            channel1.send({
+                embeds: [embed],
+                allowedMentions: { repliedUser: false }
+            })
             console.error(e)
 
         })
