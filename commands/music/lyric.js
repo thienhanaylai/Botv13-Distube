@@ -20,28 +20,51 @@ module.exports = {
 
         try {
             if (args.join(' ')) {
-                const title = args.join(' ');
-                const options = {
-                    apiKey: 'fxRWwdEIxgyNPOOldRyqbzdKVTq5bEJOCb5hu23GaLKYvaOxN0rDuQFE3swNG6pP',
-                    title: title,
-                    artist: '',
-                    optimizeQuery: true
-                };
-                getSong(options).then(function(song) {
+                try {
+                    const title = args.join(' ');
+                    const options = {
+                        apiKey: 'fxRWwdEIxgyNPOOldRyqbzdKVTq5bEJOCb5hu23GaLKYvaOxN0rDuQFE3swNG6pP',
+                        title: title,
+                        artist: '',
+                        optimizeQuery: true
+                    };
+                    getSong(options).then(function(song) {
+                        if (!song) return message.channel.send(`Not Found !`)
+                        let thumbnail;
+                        let url = song.albumArt;
+                        if (!url) {
+                            thumbnail = 'https://i0.wp.com/s1.uphinh.org/2021/09/25/Untitled2e84e3ca63fb3550.th.png';
+                        } else {
+                            thumbnail = song.albumArt;
+                        }
 
+                        const embed = new MessageEmbed()
+                            .setColor('BLACK')
+                            .setTitle(` ${args.join(' ')}`)
+                            .setThumbnail(thumbnail)
+                            .setDescription(`${song.lyrics}`)
+                            .setTimestamp()
+                            .setFooter(`Yêu cầu bởi ${message.author.username}`, message.author.displayAvatarURL())
+                        message.channel.send({ embeds: [embed] })
+                    })
+                } catch (error) {
+                    console.error(error)
+                    message.channel.send(`Not Found !`)
+                    channel1 = client.channels.cache.find(channel => channel.id === '895523356986707979')
                     const embed = new MessageEmbed()
-                        .setColor('BLACK')
-                        .setTitle(` ${args.join(' ')}`)
-
-                    .setDescription(`${song.lyrics}`)
-                        .setTimestamp()
-                        .setFooter(`Yêu cầu bởi ${message.author.username}`, message.author.displayAvatarURL())
-                    message.channel.send({ embeds: [embed] })
-                })
+                        .setColor('RED')
+                        .setTitle('Error!')
+                        .addField(`Error:`, `\`\`\`js\n${error}\n\`\`\``)
+                    channel1.send({
+                        embeds: [embed],
+                        allowedMentions: { repliedUser: false }
+                    })
+                }
             }
 
             if (!args.join(' ')) {
                 try {
+
                     const queue = client.distube.getQueue(message)
                     if (!queue) return message.reply(`Không có bài nhạc nào đang phát vui lòng nhập tên bài hát !`)
                     const track = queue.songs[0];
@@ -53,11 +76,20 @@ module.exports = {
                         optimizeQuery: true
                     };
                     getSong(options).then(function(song) {
+                        if (!song) return message.channel.send(`Not Found !`)
+                        let thumbnail;
+                        let url = song.albumArt;
+                        if (!url) {
+                            thumbnail = 'https://i0.wp.com/s1.uphinh.org/2021/09/25/Untitled2e84e3ca63fb3550.th.png';
+                        } else {
+                            thumbnail = song.albumArt;
+                        }
+
                         const embed = new MessageEmbed()
                             .setColor('BLACK')
                             .setTitle(`${name}`)
-
-                        .setDescription(`${song.lyrics}`)
+                            .setThumbnail(thumbnail)
+                            .setDescription(`${song.lyrics}`)
                             .setTimestamp()
                             .setFooter(`Yêu cầu bởi ${message.author.username}`, message.author.displayAvatarURL())
                         message.channel.send({ embeds: [embed] })
