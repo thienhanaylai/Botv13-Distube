@@ -15,7 +15,7 @@ module.exports = {
             channelID = data.IDChannel;
         }
         const channel1 = client.channels.cache.find(channel => channel.id === `${channelID}`);
-        if (message.channel.id !== channel1.id) return message.channel.send(`Bạn không thể sử dụng lệnh ở kênh này\nVui lòng chuyển đến kênh #**${channel1.name}**`);
+        if (message.channel.id !== channel1.id) return message.channel.send(`Bạn không thể sử dụng lệnh ở kênh này\nVui lòng chuyển đến kênh <#${channel1.id}>`);
 
         if (!args[0]) return message.reply(`Nhập tên bài hát !`)
         if (checkroom(message)) return;

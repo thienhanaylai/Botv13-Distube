@@ -12,7 +12,7 @@ module.exports = {
         let data;
         try {
             data = await SchemaPrefix.findOne({
-                _id: message.guild.id,
+                _id: message.guild.id
             })
             if (!data) {
                 let newData = await SchemaPrefix.create({

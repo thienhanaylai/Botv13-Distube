@@ -18,7 +18,7 @@ module.exports = {
             channelID = data.IDChannel;
         }
         const channel1 = client.channels.cache.find(channel => channel.id === `${channelID}`);
-        if (message.channel.id !== channel1.id) return message.channel.send(`Bạn không thể sử dụng lệnh ở kênh này\nVui lòng chuyển đến kênh #**${channel1.name}**`);
+        if (message.channel.id !== channel1.id) return message.channel.send(`Bạn không thể sử dụng lệnh ở kênh này\nVui lòng chuyển đến kênh <#${channel1.id}>`);
         const duration1 = moment.duration(message.client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member
         const embed = new MessageEmbed()
