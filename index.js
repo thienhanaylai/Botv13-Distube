@@ -41,20 +41,17 @@ const distube = new DisTube(client, {
 
 const { readdirSync } = require('fs');
 const fs = require('fs');
+const moment = require("moment");
+require("moment-duration-format");
 
 
-setInterval(() => {
-    client.on("ready", () => {
-        console.log(`${client.user.username} online`);
-        client.user.setPresence({
-            activities: [{
-                name: '| ~play to play music !',
-                type: "LISTENING",
 
-            }],
-            status: 'online'
-        });
+client.on("ready", () => {
+    console.log(`${client.user.username} online`)
+    setInterval(() => {
+
         setTimeout(() => {
+
             const duration1 = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
             client.user.setPresence({
                 activities: [{
@@ -63,10 +60,23 @@ setInterval(() => {
 
                 }],
                 status: 'online'
-            });
+            })
+
         }, 15000)
-    })
-}, 30000)
+
+        client.user.setPresence({
+            activities: [{
+                name: `| ~play music ! `,
+                type: "LISTENING",
+
+            }],
+            status: 'online'
+        })
+
+    }, 30000)
+})
+
+
 
 
 client.config = require('./config.js');

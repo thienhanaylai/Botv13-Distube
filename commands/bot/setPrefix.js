@@ -11,7 +11,9 @@ module.exports = {
         if (!args.join(' ')) return message.channel.send('Nhập gì đó để set prefix !')
         let data;
         try {
-            data = await SchemaPrefix.findOne({ _id: message.guild.id })
+            data = await SchemaPrefix.findOne({
+                _id: message.guild.id,
+            })
             if (!data) {
                 let newData = await SchemaPrefix.create({
                     _id: message.guild.id,
