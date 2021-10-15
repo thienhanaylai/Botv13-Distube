@@ -1,22 +1,38 @@
 const axios = require('axios')
 const { MessageEmbed } = require('discord.js');
+const HuyAPI = require("huyapi")
+const image = new HuyAPI
 module.exports = {
     name: "dog",
-    aliases: ['dog'],
+    aliases: ['dg'],
     category: "image",
     run: async(client, message, args) => {
-        axios.get("https://some-random-api.ml/img/dog")
-            .then(function(res) {
-                const url = res.data.link;
+        const res = Math.floor(Math.random() * 2)
+        if (res === 0) {
+            axios.get("https://some-random-api.ml/img/dog")
+                .then(function(res) {
+                    const url = res.data.link;
+                    const embed = new MessageEmbed()
+                        .setColor('AQUA')
+                        .setImage(url)
+                        .setTimestamp()
+                    message.channel.send({ embeds: [embed] })
+                })
+                .catch((e) => {
+                    console.error(e)
+                })
+        }
+        if (res === 1) {
+            try {
+                const cat = await image.get.dog()
                 const embed = new MessageEmbed()
                     .setColor('AQUA')
-                    .setImage(url)
+                    .setImage(cat.url)
+                    .setFooter(`Author : ${cat.author}`)
                     .setTimestamp()
                 message.channel.send({ embeds: [embed] })
-            })
-            .catch((e) => {
-                console.error(e)
-            })
+            } catch (e) { console.error(e) }
+        }
 
     }
 }

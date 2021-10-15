@@ -114,7 +114,7 @@ fs.readdir("./events/", (err, files) => {
 const mongoose = require('mongoose');
 const SchemaPrefix = require('./Schemas/SchemaPrefix')
 
-mongoose.connect('mongodb+srv://thienhanaylai:BAO123az@cluster0.ssew6.mongodb.net/Data2', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://thienhanaylai:BAO123az@cluster0.ssew6.mongodb.net/Data', { useNewUrlParser: true, useUnifiedTopology: true })
     .then((res) => console.log('> Connected...'))
     .catch(err => console.log(`> Error while connecting to mongoDB : ${err.message}`))
 
@@ -130,11 +130,11 @@ client.on("messageCreate", async(message) => {
 
         if (message.content === `<@!${client.user.id}>`) {
             const embed = new MessageEmbed()
-                .setColor('ORANGE')
+                .setColor('AQUA')
                 .setTitle(`My prefix is ${prefix}\nUse ${prefix}help to see more!`)
             message.reply({ embeds: [embed] })
         };
-
+        if (message.author.id === `875358993843912764`) return message.reply(`Mày tuổi gì đòi kêu tao :)`)
         if (message.author.dmChannel) return;
         if (message.author.bot) return;
         if (!message.content.startsWith(config.prefix)) return;
