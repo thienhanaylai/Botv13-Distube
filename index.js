@@ -163,5 +163,9 @@ client.on("messageCreate", async(message) => {
 
     }
 })
+client.on('error', error => console.log(error));
+client.on('warn', info => console.log(info));
+process.on('unhandledRejection', error => console.log(error));
+process.on('uncaughtException', error => console.log(error));
 
 client.login('ODg1ODk0NzU3MjA3OTEyNTY4.YTtryQ.iScGeSlK6tRzMm5mG_s4NLJXSmI');

@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { stripIndent } = require('common-tags');
 const { category } = require('../fun/emoji');
+const { readdirSync } = require(`fs`);
 
 module.exports = {
     name: 'help',
@@ -27,20 +28,27 @@ module.exports = {
 };
 
 function getAll(client, message) {
+
+    const url = 'https://discord.com/api/oauth2/authorize?client_id=850391074468003900&permissions=0&scope=bot';
     const embed = new MessageEmbed()
-        .setColor("BLUE")
-        .setAuthor('LGirl-Bot helps!')
-        .setTimestamp()
+        .setColor("AQUA")
+
+    .setAuthor(`Lgirl bot`, client.user.displayAvatarURL())
+
+    .setTimestamp()
         .setFooter(`Sử dụng ~help [tên lệnh] để xem chi tiết`)
     const commands = (category) => {
+
         return client.commands
             .filter(cmd => cmd.category === category)
             .map(cmd => `\`${cmd.name}\``)
             .join('-')
     }
     const info = client.categories
-        .map(cat => stripIndent `**${cat[0].toUpperCase() + cat.slice(1)}** \n${commands(cat)}`)
+        .map(cat => stripIndent `> **${cat[0].toUpperCase() + cat.slice(1)}** \n  ${commands(cat)}`)
         .reduce((string, category) => string + "\n" + category);
+
+
 
     return message.channel.send({ embeds: [embed.setDescription(info)] });
 }
