@@ -114,7 +114,7 @@ fs.readdir("./events/", (err, files) => {
 const mongoose = require('mongoose');
 const SchemaPrefix = require('./Schemas/SchemaPrefix')
 
-mongoose.connect('mongodb+srv://thienhanaylai:BAO123az@cluster0.ssew6.mongodb.net/Data', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://thienhanaylai:BAO123az@cluster0.ssew6.mongodb.net/Data2', { useNewUrlParser: true, useUnifiedTopology: true })
     .then((res) => console.log('> Connected...'))
     .catch(err => console.log(`> Error while connecting to mongoDB : ${err.message}`))
 
