@@ -163,9 +163,42 @@ client.on("messageCreate", async(message) => {
 
     }
 })
-client.on('error', error => console.log(error));
+client.on('error', error => {
+    channel1 = client.channels.cache.find(channel => channel.id === '895523356986707979')
+    const embed = new MessageEmbed()
+        .setColor('RED')
+        .setTitle('Error!')
+        .addField(`Error:`, `\`\`\`js\n${error}\n\`\`\``)
+    channel1.send({
+        embeds: [embed],
+        allowedMentions: { repliedUser: false }
+    })
+    console.log(error)
+});
 client.on('warn', info => console.log(info));
-process.on('unhandledRejection', error => console.log(error));
-process.on('uncaughtException', error => console.log(error));
+process.on('unhandledRejection', error => {
+    channel1 = client.channels.cache.find(channel => channel.id === '895523356986707979')
+    const embed = new MessageEmbed()
+        .setColor('RED')
+        .setTitle('Error!')
+        .addField(`Error:`, `\`\`\`js\n${error}\n\`\`\``)
+    channel1.send({
+        embeds: [embed],
+        allowedMentions: { repliedUser: false }
+    })
+    console.log(error)
+});
+process.on('uncaughtException', error => {
+    channel1 = client.channels.cache.find(channel => channel.id === '895523356986707979')
+    const embed = new MessageEmbed()
+        .setColor('RED')
+        .setTitle('Error!')
+        .addField(`Error:`, `\`\`\`js\n${error}\n\`\`\``)
+    channel1.send({
+        embeds: [embed],
+        allowedMentions: { repliedUser: false }
+    })
+    console.log(error)
+});
 
 client.login('ODg1ODk0NzU3MjA3OTEyNTY4.YTtryQ.iScGeSlK6tRzMm5mG_s4NLJXSmI');

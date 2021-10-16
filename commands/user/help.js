@@ -10,21 +10,32 @@ module.exports = {
     description: 'Xem các lệnh của',
     usage: '~help [tên lệnh]',
     run: async(client, message, args) => {
+        try {
 
+            const SchemaChannel = require('../../Schemas/SchemaChannel');
+            let channelID;
+            let data = await SchemaChannel.findOne({ _id: message.guild.id })
+            if (data === null) {
+                channelID = message.channel.id;
+            } else {
+                channelID = data.IDChannel;
+            }
+            const channel1 = client.channels.cache.find(channel => channel.id === `${channelID}`);
+            if (message.channel.id !== channel1.id) return message.channel.send(`Bạn không thể sử dụng lệnh ở kênh này\nVui lòng chuyển đến kênh #**${channel1.name}**`);
 
-        const SchemaChannel = require('../../Schemas/SchemaChannel');
-        let channelID;
-        let data = await SchemaChannel.findOne({ _id: message.guild.id })
-        if (data === null) {
-            channelID = message.channel.id;
-        } else {
-            channelID = data.IDChannel;
+            if (!args[0]) return getAll(client, message);
+            return getCMD(client, message, args[0]);
+        } catch (error) {
+            channel1 = client.channels.cache.find(channel => channel.id === '895523356986707979')
+            const embed = new MessageEmbed()
+                .setColor('RED')
+                .setTitle('Error!')
+                .addField(`Error:`, `\`\`\`js\n${error}\n\`\`\``)
+            channel1.send({
+                embeds: [embed],
+                allowedMentions: { repliedUser: false }
+            })
         }
-        const channel1 = client.channels.cache.find(channel => channel.id === `${channelID}`);
-        if (message.channel.id !== channel1.id) return message.channel.send(`Bạn không thể sử dụng lệnh ở kênh này\nVui lòng chuyển đến kênh #**${channel1.name}**`);
-
-        if (!args[0]) return getAll(client, message);
-        return getCMD(client, message, args[0]);
     },
 };
 
