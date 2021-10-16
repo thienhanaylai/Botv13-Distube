@@ -134,7 +134,7 @@ client.on("messageCreate", async(message) => {
                 .setTitle(`My prefix is ${prefix}\nUse ${prefix}help to see more!`)
             message.reply({ embeds: [embed] })
         };
-        if (message.author.id === `875358993843912764`) return message.reply(`Mày tuổi gì đòi kêu tao :)`)
+        //if (message.author.id === `875358993843912764`) return message.reply(`Mày tuổi gì đòi kêu tao :)`)
         if (message.author.dmChannel) return;
         if (message.author.bot) return;
         if (!message.content.startsWith(config.prefix)) return;

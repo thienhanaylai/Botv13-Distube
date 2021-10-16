@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const { stripIndent } = require('common-tags');
 const { category } = require('../fun/emoji');
 const SchemaPrefix = require('../../Schemas/SchemaPrefix');
+const config = require('../../config')
 module.exports = {
     name: 'help',
     category: 'user',
@@ -29,10 +30,11 @@ module.exports = {
 
 
 async function getAll(client, message) {
+
     let prefix;
     let data1 = await SchemaPrefix.findOne({ _id: message.guild.id })
     if (data1 === null) {
-        prefix = config.prefix;
+        prefix = '~';
     } else {
         prefix = data1.newPrefix;
     }

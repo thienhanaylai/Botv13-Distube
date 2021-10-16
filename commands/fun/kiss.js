@@ -7,11 +7,11 @@ module.exports = {
     category: 'fun',
     aliases: ["kiss"],
     run: async(client, message, args) => {
+        if (!args[0]) return message.channel.send(`Tag người muốn  hôn vào!`);
         const img = await image.get.kiss()
         const str = args[0].charAt(2)
         if (str === `&`) return message.reply('Hôn quần què gì mà hôn zữ zạy!')
 
-        if (!args[0]) return message.channel.send(`Tag người muốn  hôn vào!`);
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || `<@!${args[0]}>`
 
         if (`<@${member.id}>` === `<@${message.author.id}>`) return message.reply('Đừng thudam tinh thần nữa bạn !')
