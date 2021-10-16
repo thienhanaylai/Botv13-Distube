@@ -21,7 +21,7 @@ module.exports = {
         if (!message.guild.me.voice.channel) return message.channel.send('Bot hiện không có trong phòng thoại nào!')
         const queue = client.distube.getQueue(message);
 
-        if (queue) return message.channel.send(`Tao đang phát nhạc đừng có mứt dại!`)
+
         try {
             client.distube.voices.leave(message)
             await message.channel.send('**Leaved !**');
