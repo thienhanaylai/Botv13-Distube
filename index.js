@@ -19,7 +19,7 @@ const distube = new DisTube(client, {
     leaveOnEmpty: true,
     emptyCooldown: 30,
     leaveOnFinish: true,
-    youtubeCookie: config.cookie,
+    youtubeCookie: process.env.cookie,
     emitNewSongOnly: true,
     emitAddListWhenCreatingQueue: true,
     emitAddSongWhenCreatingQueue: false,
@@ -114,7 +114,7 @@ fs.readdir("./events/", (err, files) => {
 const mongoose = require('mongoose');
 const SchemaPrefix = require('./Schemas/SchemaPrefix')
 
-mongoose.connect('mongodb+srv://thienhanaylai:BAO123az@cluster0.ssew6.mongodb.net/Data2', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.db, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((res) => console.log('> Connected...'))
     .catch(err => console.log(`> Error while connecting to mongoDB : ${err.message}`))
 
@@ -201,4 +201,4 @@ process.on('uncaughtException', error => {
     console.log(error)
 });
 
-client.login('ODg1ODk0NzU3MjA3OTEyNTY4.YTtryQ.iScGeSlK6tRzMm5mG_s4NLJXSmI');
+client.login(process.env.token);
